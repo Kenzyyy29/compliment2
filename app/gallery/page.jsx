@@ -17,18 +17,6 @@ const imageContent = [
   title: "04/02/2024",
   image: "/4.jpeg",
  },
- {
-  title: "04/02/2024",
-  image: "/5.jpeg",
- },
- {
-  title: "04/02/2024",
-  image: "/6.jpeg",
- },
- {
-  title: "04/02/2024",
-  image: "/7.jpeg",
- },
 ];
 
 const Gallery = () => {
@@ -41,19 +29,22 @@ const Gallery = () => {
     {imageContent.map((item, index) => (
      <div
       key={index}
-      className="flex flex-col gap-2 items-center">
+      className="flex flex-col gap-3 items-center">
       {item.image && (
-       <img
-        src={item.image}
-        className="mt-4 w-[300px] h-auto rounded-lg"
-       />
+       <div className="flex flex-col items-center gap-2 p-3">
+        <img
+         src={item.image}
+         className="mt-4 w-[300px] h-auto rounded-lg"
+        />
+        <p className="text-pink font-bold text-xl">{item.title}</p>
+       </div>
       )}
      </div>
     ))}
    </div>
    <div className="flex flex-col gap-1 items-center justify-center">
     <Link href="/">
-     <button className="text-white underline">Baca Lagi?</button>
+     <button className="text-white underline">Read Our Journey Again?</button>
     </Link>
     <p className="text-white/60">Developed by @simp4iammm</p>
    </div>

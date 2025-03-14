@@ -1,59 +1,60 @@
 "use client";
-// React
-import {IoIosHeart} from "react-icons/io";
-import {FaArrowRightLong} from "react-icons/fa6";
-import {FaArrowLeftLong} from "react-icons/fa6";
-
-import Link from "next/link";
 import {useState} from "react";
+import Link from "next/link";
+
+import {IoIosHeart} from "react-icons/io";
 
 const popupContent = [
  {
-  title: "Awal Perjalanan",
+  title: "Our Meet!",
   body:
-   "Awal kita ketemu itu tanggal 4 Februari 2024, kita langsung ketemu di hotel Cordela loh! hahaha, siapa si yang first date nya langsung nginep berdua di hotel.",
+   "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore harum.",
  },
  {
-  title: "Hubungan Kita",
+  title: "The Relationship",
   body:
-   "Dari awal ketemu sampe sekarang, kita belum pernah tuh yang namanya tembak tembakan, hubungan kita ngalir gitu aja. Banyak hal yang udah kita lewatin bareng bareng.",
+   "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore harum.",
  },
  {
-  title: "Planning",
+  title: "Our Future Plan!",
   body:
-   "Oh iya, hubungan kita udah berjalan 1 tahun lebih loh! Tujuan utama kita ya jelas buat hidup bareng, doain ya!",
+   "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore harum.",
  },
 ];
 
 const Popup = ({content, onNext, onPrev, onClose}) => {
  return (
-  <div className="fixed inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50">
-   <div className="flex flex-col justify-between w-[300px] h-[350px] overflow-y-auto bg-white rounded-lg p-3">
-    <div className="flex flex-col items-start gap-2">
-     <h1 className="text-2xl text-pink font-bold text-center">
-      {content.title}
-     </h1>
+  <div className="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
+   <div className="bg-white w-[300px] flex flex-col gap-2 rounded-lg">
+    {/*Header*/}
+    <div className="flex flex-col gap-2">
+     <h1 className="text-2xl text-pink font-bold p-2">{content.title}</h1>
+     <hr className="w-full border border-pink" />
+    </div>
+
+    {/*Content*/}
+    <div className="flex flex-col gap-2 p-2">
      <p>{content.body}</p>
     </div>
-    <div className="flex flex-col gap-2">
-     <div className="flex gap-2 justify-center items-center w-full">
+
+    {/*Footer*/}
+    <div className="flex flex-col gap-3 p-3 w-full">
+     <div className="flex gap-2">
       <button
        onClick={onPrev}
-       className="flex justify-between items-center px-4 py-2 bg-pink text-white rounded-full w-full">
-       <FaArrowLeftLong />
-       Kembali
+       className="w-full px-4 py-2 bg-pink text-white rounded-full">
+       Previous
       </button>
       <button
        onClick={onNext}
-       className="flex justify-between items-center px-4 py-2 bg-pink text-white rounded-full w-full">
-       Lanjut
-       <FaArrowRightLong />
+       className="w-full px-4 py-2 bg-pink text-white rounded-full">
+       Next
       </button>
      </div>
      <button
       onClick={onClose}
-      className="px-4 py-2 bg-pink text-white rounded-full w-full">
-      Keluar
+      className="w-full px-4 py-2 bg-pink text-white rounded-full">
+      Exit
      </button>
     </div>
    </div>
@@ -66,26 +67,24 @@ const HomeUi = () => {
  const [currentIndex, setCurrentIndex] = useState(0);
  const [allPopupShown, setAllPopupShown] = useState(false);
 
- const handleOpen = () => {
+ const toggleOpen = () => {
   setOpenPopup(!openPopup);
   setCurrentIndex(0);
   setAllPopupShown(false);
  };
 
- const handleClose = () => {
+ const toggleClose = () => {
   setOpenPopup(false);
   setAllPopupShown(true);
  };
 
- const handleNext = () => {
+ const toggleNext = () => {
   if (currentIndex < popupContent.length - 1) {
    setCurrentIndex(currentIndex + 1);
-  } else {
-   handleClose();
   }
  };
 
- const handlePrev = () => {
+ const togglePrev = () => {
   if (currentIndex > 0) {
    setCurrentIndex(currentIndex - 1);
   }
@@ -95,45 +94,39 @@ const HomeUi = () => {
  const isNextDisabled = currentIndex === popupContent.length - 1;
 
  return (
-  <div className="flex flex-col p-4 justify-between items-center h-screen">
+  <div className="flex flex-col justify-between p-3 h-screen">
    <div></div>
-   <div className="flex flex-col gap-2 items-center justify-center">
-    <IoIosHeart className="size-24 animate-bounce duration-700 fill-white" />
-    <h1 className="text-2xl text-white font-bold text-center">
-     Halo Bayi, ini khusus dibikin buat kamu loh!
-    </h1>
+   <div className="flex flex-col gap-1 items-center">
+    <IoIosHeart className="fill-white size-[80px] animate-bounce duration-700" />
+    <h1 className="text-2xl text-white font-bold">Hi, This is For You!</h1>
     <button
-     onClick={handleOpen}
+     onClick={toggleOpen}
      className="px-4 py-2 rounded-full bg-white text-pink font-semibold">
-     Liat Perjalanan Kita Disini!
+     Our Journey
     </button>
     {openPopup && (
      <Popup
+      onNext={toggleNext}
+      onPrev={togglePrev}
       content={popupContent[currentIndex]}
-      onNext={handleNext}
-      onPrev={handlePrev}
-      onClose={handleClose}
+      onClose={toggleOpen}
       isPrevDisabled={isPrevDisabled}
       isNextDisabled={isNextDisabled}
      />
     )}
     <Link href="/gallery">
-     <button className="flex underline text-white">Buka Galeri</button>
-    </Link>
-   </div>
-   <div className="flex flex-col gap-1 items-center justify-end p-2">
-    <Link href="/words">
-     <button
-      className={`mt-4 px-4 py-2 rounded ${
-       allPopupShown
-        ? " text-white hover:underline"
-        : " text-white/50 cursor-not-allowed"
-      }`}
-      disabled={!allPopupShown}>
-      Udah Selesai Baca? Klik ini!
+     <button className="text-white underline font-semibold">
+      Check Our Gallery
      </button>
     </Link>
-    <p className="text-white/60">Developed by @simp4iammm</p>
+   </div>
+   <div className="flex flex-col gap-2 items-center">
+    <Link href="/words">
+     <button className="text-white animate-pulse">
+      Done Reading? Read This Also!
+     </button>
+    </Link>
+    <p className="text-black/50">Developed by @simp4iammm</p>
    </div>
   </div>
  );
